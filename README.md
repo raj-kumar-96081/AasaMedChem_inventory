@@ -8,13 +8,13 @@ The system supports multiple user roles including **Admin**, **Seller**, and **B
 
 # Live Demo
 
-**Application URL:** `https://your-vercel-url.vercel.app`
+**Application URL:** `aasa-med-chem-inventory-git-main-raj-kumar-96081s-projects.vercel.app`
 
 ---
 
 # GitHub Repository
 
-**Repository URL:** `https://github.com/your-username/inventory-order-management`
+**Repository URL:** `https://github.com/raj-kumar-96081/AasaMedChem_inventory`
 
 ---
 
