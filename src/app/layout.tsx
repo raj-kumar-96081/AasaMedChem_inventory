@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   description: "Inventory and Order Management System",
 };
 
+
+
 export default function RootLayout({
   children,
 }: Readonly<{

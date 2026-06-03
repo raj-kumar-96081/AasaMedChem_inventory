@@ -1,13 +1,13 @@
-// import { createEnv } from "@t3-oss/env-nextjs";
-// import { z } from "zod";
+import { createEnv } from "@t3-oss/env-nextjs";
+import { z } from "zod";
 
-// export const env = createEnv({
-//   server: {
-//     DATABASE_URL: z.string().optional(),
-//     AUTH_SECRET: z.string().optional(),
-//   },
+export const env = createEnv({
+    server: {
+        DATABASE_URL: z.string().optional(),
+        AUTH_SECRET: z.string().optional(),
+    },
 
-//   client: {},
+    client: {},
 
-//   runtimeEnv: {},
-// });
+    experimental__runtimeEnv: {},
+});
