@@ -1,0 +1,165 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+//output   = "../src/generated/prisma"
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  SELLER
+  BUYER
+}
+
+enum ProductDimension {
+  WEIGHT
+  VOLUME
+  COUNT
+}
+
+enum OrderStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FULFILLED
+}
+
+enum InventoryTransactionType {
+  STOCK_IN
+  STOCK_OUT
+  ADJUSTMENT
+  ORDER_DEDUCTION
+}
+
+model User {
+  id String @id @default(cuid())
+
+  name String
+
+  email String @unique
+
+  password String
+
+  role Role
+
+  sellerProfile SellerProfile?
+
+  orders Order[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+}
+
+model SellerProfile {
+  id String @id @default(cuid())
+
+  businessName String
+
+  gstNumber String?
+
+  phone String?
+
+  address String?
+
+  userId String @unique
+
+  user User @relation(fields: [userId], references: [id])
+
+  products Product[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id String @id @default(cuid())
+
+  sellerId String
+
+  seller SellerProfile @relation(fields: [sellerId], references: [id])
+
+  sku String @unique
+
+  name String
+
+  description String?
+
+  dimension ProductDimension
+
+  baseUnit String
+
+  inventoryQuantity Decimal @db.Decimal(30, 8)
+
+  pricePerBaseUnit Decimal @db.Decimal(30, 8)
+
+  orderItems OrderItem[]
+
+  inventoryTransactions InventoryTransaction[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+}
+
+model InventoryTransaction {
+  id String @id @default(cuid())
+
+  productId String
+
+  product Product @relation(fields: [productId], references: [id])
+
+  quantity Decimal @db.Decimal(30, 8)
+
+  type InventoryTransactionType
+
+  reason String?
+
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id String @id @default(cuid())
+
+  buyerId String
+
+  buyer User @relation(fields: [buyerId], references: [id])
+
+  status OrderStatus @default(PENDING)
+
+  totalAmount Decimal @db.Decimal(30, 8)
+
+  items OrderItem[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+}
+
+model OrderItem {
+  id String @id @default(cuid())
+
+  orderId String
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  productId String
+
+  product Product @relation(fields: [productId], references: [id])
+
+  enteredUnit String
+
+  enteredQuantity Decimal @db.Decimal(30, 8)
+
+  convertedQuantity Decimal @db.Decimal(30, 8)
+
+  price Decimal @db.Decimal(30, 8)
+}
