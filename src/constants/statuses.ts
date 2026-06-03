@@ -1,0 +1,6 @@
+export const ORDER_STATUS = {
+  PENDING: "PENDING",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
+  FULFILLED: "FULFILLED",
+} as const;
